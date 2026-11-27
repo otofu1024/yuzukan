@@ -36,12 +36,11 @@ build
 *.bin
 data/
 # Tracked data: symbol descriptions / variants for the rewriter
-!karukan-engine/data/
+!yuzukan-engine/data/
 *.json
-!renovate.json
 *.cache
 
 .fake
-# macOS IME (karukan-macos)
-karukan-im/macos/.build/
-karukan-im/macos/out/
+# macOS IME (yuzukan-macos)
+yuzukan-im/macos/.build/
+yuzukan-im/macos/out/

@@ -1,0 +1,4 @@
+/* Display names for the input source and its input modes (keys are
+   TISInputSourceIDs). Without these the input menu shows the raw IDs. */
+"dev.otofu1024.inputmethod.yuzukan" = "yuzukan";
+"dev.otofu1024.inputmethod.yuzukan.Japanese" = "Hiragana (yuzukan)";

@@ -1,0 +1,16 @@
+同梱している変換モデル
+
+- jinen-v2-small (jinen-v2-small-Q5_K_M.gguf, tokenizer.json)
+  https://huggingface.co/togatogah/jinen-v2-small.gguf
+- jinen-v2-xsmall (jinen-v2-xsmall-Q5_K_M.gguf, tokenizer.json)
+  https://huggingface.co/togatogah/jinen-v2-xsmall.gguf
+
+作者: togatogah
+ライセンス: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+  https://creativecommons.org/licenses/by-sa/4.0/
+配布元のファイルを改変せずに同梱しています。
+
+出典と注意事項(配布元のモデルカードより):
+学習コーパスには、国立国会図書館の書誌データ(全国書誌データ、NDL サーチの
+書誌データ)を加工したものが含まれます。国立国会図書館がこのモデルを作成、
+提供、保証するものではありません。

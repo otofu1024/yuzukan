@@ -1,4 +1,6 @@
 [env]
+# C/C++ 部分(llama.cpp)もビルドしたMacのOSではなく、対応する最古のmacOS向けにする
+MACOSX_DEPLOYMENT_TARGET = "13.0"
 # Models use CPU inference (n_gpu_layers = 0); skip unused Metal initialization.
 GGML_METAL = "OFF"
 # Keep model weights file-backed instead of allocating repacked CPU copies.

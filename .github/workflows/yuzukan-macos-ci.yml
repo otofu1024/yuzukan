@@ -1,0 +1,65 @@
+name: yuzukan-macos CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'yuzukan-im/macos/**'
+      - 'yuzukan-im/core/**'
+      - 'yuzukan-engine/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/yuzukan-macos-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'yuzukan-im/macos/**'
+      - 'yuzukan-im/core/**'
+      - 'yuzukan-engine/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/yuzukan-macos-ci.yml'
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  lint:
+    name: Swift Format
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install swift-format
+        run: brew install swift-format
+      - name: Swift format lint
+        run: swift-format lint -r Sources/ Tests/
+        working-directory: yuzukan-im/macos
+
+  test:
+    name: Build & Test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ". -> target"
+
+      # Rust-side coverage on macOS (yuzukan-imserver is the macOS engine path)
+      - name: Run Rust tests (yuzukan-im)
+        run: cargo test -p yuzukan-im
+
+      # target/debug/yuzukan-imserver is required by the Swift
+      # TransportTests (they skip when the binary is missing)
+      - name: Build yuzukan-imserver
+        run: cargo build -p yuzukan-im --bin yuzukan-imserver
+
+      - name: Swift build
+        run: swift build
+        working-directory: yuzukan-im/macos
+
+      - name: Swift test
+        run: swift test
+        working-directory: yuzukan-im/macos

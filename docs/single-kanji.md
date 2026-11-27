@@ -23,7 +23,7 @@
 
 ## データの形式
 
-候補は [`karukan-engine/data/single_kanji.yml`](../karukan-engine/data/single_kanji.yml) に、漢字1字につき1エントリで入っています。
+候補は [`yuzukan-engine/data/single_kanji.yml`](../yuzukan-engine/data/single_kanji.yml) に、漢字1字につき1エントリで入っています。
 
 ```yaml
 entries:

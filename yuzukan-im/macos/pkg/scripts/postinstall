@@ -1,0 +1,4 @@
+#!/bin/sh
+# 起動中の古いプロセスを終了させる(次に入力するときは新しい版が起動する)
+killall YuzukanIME 2>/dev/null
+exit 0

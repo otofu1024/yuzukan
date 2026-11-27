@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bootstrap karukan-engine/data/single_kanji.yml from Mozc's single-kanji data.
+"""Bootstrap yuzukan-engine/data/single_kanji.yml from Mozc's single-kanji data.
 
 Run once. The YAML is maintained by hand afterwards, so this refuses to
 overwrite an existing file (pass --force to regenerate from scratch).
@@ -31,7 +31,7 @@ the end.
 Usage:
     python3 scripts/single_kanji_porter.py \
         --mozc /path/to/google/mozc \
-        --out karukan-engine/data/single_kanji.yml
+        --out yuzukan-engine/data/single_kanji.yml
 """
 
 from __future__ import annotations

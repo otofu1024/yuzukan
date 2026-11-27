@@ -1,6 +1,6 @@
 # Configuration
 
-設定ファイル: `~/.config/karukan-im/config.toml`（macOS: `~/Library/Application Support/com.karukan.karukan-im/config.toml`）
+設定ファイル: `~/Library/Application Support/com.yuzukan.yuzukan-im/config.toml`
 
 ```toml
 [conversion]
@@ -27,6 +27,11 @@ enabled = true                 # 変換学習の有効/無効
 max_entries = 10000            # 学習エントリの最大数
 max_surface_chars = 50         # 学習する変換結果の最大文字数
 
+[display]
+verbose = false                # 補助テキストに詳細を出す（Ctrl+Shift+V で切替）
+candidate_window = "always"    # "conversion" で Space 変換時のみ表示
+theme = "system"               # カラーテーマ（system / yuzu / yuzu-light / yuzu-dark / yuzu-leaf）
+
 [symbol]                       # どの記号を打つか（[記号・半角全角](symbols.md) 参照）
 punctuation = "、。"            # 「,」「.」キーが入力する句読点（"，．" / "、．" / "，。"）
 bracket = "「」"                # 「[」「]」キーが入力する括弧（"[]"）
@@ -47,7 +52,7 @@ phrases = [                    # フレーズ一覧（書くと既定一覧ご�
 ```
 
 > [!NOTE]
-> 上記は主要な設定項目の抜粋です。全項目の正確な既定値と説明は [`config/default.toml`](../karukan-im/core/config/default.toml) を参照してください（各設定行に日本語コメント付き）。
+> 上記は主要な設定項目の抜粋です。全項目の正確な既定値と説明は [`config/default.toml`](../yuzukan-im/core/config/default.toml) を参照してください（各設定行に日本語コメント付き）。
 
 ## モデルの定義（[models]）
 
@@ -78,7 +83,7 @@ my-model = "/home/user/models/my-model.gguf"
 
 既定のモデルを差し替えるには同じキーに書きます（`jinen-v2-small-q5 = "/path/to/model.gguf"`）。不正なエントリは起動時のログと、そのモデルを使うときのエラーに出ます。
 
-設定変更後はfcitx5の再起動（macOSは `killall KarukanIME`）で反映されます。
+設定変更後は `killall YuzukanIME` で再起動すると反映されます。
 
 ## Live Conversion
 
@@ -126,6 +131,25 @@ verbose = false                 # 補助テキストに詳細を出す（Ctrl+Sh
 | モデルに渡した文脈 | `lctx: 昨日は` | 変換時に前方の文脈としてモデルへ渡した文字列（[ペルソナ](persona.md) は含まない）。ターミナルのインデントのような空白だけの文脈は捨てるので表示されない |
 | ペルソナ | `⚡[あ]P:プログラミング` | モード表示に、モデルへ渡している `persona` の実効値が付く |
 
+## カラーテーマ（theme）
+
+配色の一覧画像と色の定義は [デザイン](design.md) を参照してください。
+
+```toml
+[display]
+theme = "yuzu"                  # system（既定） / yuzu / yuzu-light / yuzu-dark / yuzu-leaf
+```
+
+候補ウィンドウの配色を切り替えます。既定はモノクローム配色の `"system"` です。ゆずシリーズ（`yuzu` / `yuzu-light` / `yuzu-dark` / `yuzu-leaf`）では、クリームホワイト（`#FDFBF2`）・チャコールブラウン（`#4A3E31`）・ゆずイエロー（`#F9D030`）・ゆずリーフ（`#84A93E`）・ソフトアンバー（`#FFAA00`）をベースにしています。
+
+| 値 | 外観 | 特徴 |
+|---|---|---|
+| `system` | ライト / ダーク自動 | 既定。ニュートラルなモノクローム配色（`monochrome` エイリアスも指定可） |
+| `yuzu` | ライト / ダーク自動 | ゆずイエローの選択ハイライトを使うゆずシリーズの基本テーマ |
+| `yuzu-light` | 常にライト | macOS の外観に関わらず、和紙のようなクリームホワイト基調のライト配色で固定 |
+| `yuzu-dark` | 常にダーク | macOS の外観に関わらず、深いチャコールブラウン基調のダーク配色で固定 |
+| `yuzu-leaf` | ライト / ダーク自動 | ゆずリーフ（`#84A93E`）を選択ハイライトに据えた落ち着いた緑基調テーマ |
+
 ## 変換ペルソナ
 
 `persona` によく書く文章と関連のあるキーワードを書くと、それに寄せた変換が出やすくなります（`persona = "プログラミング"` で `くろーど` → `Claude`、`らすと` → `Rust`）。書き方と詳細表示での確認方法は [変換ペルソナ](persona.md) を参照してください。
@@ -151,11 +175,25 @@ strategy = "light"
 
 CPU高負荷時（Rustビルド中など）にかな漢字変換が遅くなる場合は、`n_threads` を小さくするとレスポンスが改善します。
 
+## 旧 karukan からの引き継ぎ
+
+以前の `~/Library/Application Support/com.karukan.karukan-im/` にあるデータは、新しいデータディレクトリに該当するものがない場合に使います。
+
+| データ | 動作 |
+|---|---|
+| `dict.bin` | `make install` が新しい場所へコピーします。コピーしていなくても読み込みます |
+| `config.toml` | 旧ファイルを読み込みます |
+| `learning.tsv` | 旧ファイルを読み込み、保存は新しい場所に行います |
+| `user_dicts/` | 旧ディレクトリを読み込みます |
+
+> [!NOTE]
+> 新しい場所に `config.toml` を作ると、旧 `config.toml` は読まれなくなります。必要な設定は新しいファイルへ写してください。
+
 ## Learning Cache
 
 ユーザーが選択した変換結果を記憶し、次回以降の変換で優先表示します。
 
-- 保存先: `~/.local/share/karukan-im/learning.tsv`（macOS: `~/Library/Application Support/com.karukan.karukan-im/learning.tsv`）
+- 保存先: `~/Library/Application Support/com.yuzukan.yuzukan-im/learning.tsv`
 - 完全一致と前方一致（予測変換）の両方に対応
   - 例: 「早稲田大学」を一度変換すると、次回「わせだ」と入力した時点で候補に表示
 - 学習候補は変換時・入力中（auto-suggest）の両方で最大3件表示
@@ -164,4 +202,4 @@ CPU高負荷時（Rustビルド中など）にかな漢字変換が遅くなる�
 - 変換中に学習候補（📝）を選択して `Ctrl+Backspace`（macOSでは Ctrl+delete。`Ctrl+Delete` でも可）を押すと、そのエントリを学習履歴から削除できる。学習候補の選択中はフッターに「Ctrl+Backspaceで履歴から削除」と表示される
 - IME切り替え・ウィンドウ切り替え時に自動保存（commit のたびには保存しない）
 - `[learning] enabled = false` で無効化可能
-- 学習履歴をすべて削除するには: `rm ~/.local/share/karukan-im/learning.tsv`
+- 学習履歴をすべて削除するには: `rm ~/Library/"Application Support"/com.yuzukan.yuzukan-im/learning.tsv`
