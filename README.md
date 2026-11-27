@@ -1,24 +1,18 @@
 # yuzukan IME
 
-[karukan](https://github.com/togatoga/karukan) IMEを元にしたローカルLLMでかな漢字変換するmacOS専用日本語IMEです。基本の使用時はメモリを100MB未満に抑えながら、精度の高いライブ変換を使えます。
+[karukan](https://github.com/togatoga/karukan) IMEを元にしたローカルLLMでかな漢字変換するmacOS専用日本語IMEです。精度の高いライブ変換を使えます。
 
 ![yuzukan デモ](images/demo.gif)
 
-## メモリ使用量
-
-|         |    通常 |  ピーク |
-| ------- | ------: | ------: |
-| yuzukan | 約 73MB | 約 93MB |
-
-> 測定の詳細は[メモリと最適化](docs/memory.md)を参照してください。
-
-主な最適化:
+## 主な最適化
 
 - CPU推論に絞り、不要なGPU初期化と重みの複製を削減
 - 2つのモデルでトークナイザーを共有
 - 辞書をメモリマップで読み込み、索引を圧縮
 - 絵文字などの変換表をビルド時に生成
 - 候補ウィンドウと通信の処理を軽量化
+
+メモリの測定結果は[メモリと最適化](docs/memory.md)を参照してください。
 
 ## 導入
 
