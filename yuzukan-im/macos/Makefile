@@ -47,8 +47,8 @@ bundle: build
 	codesign --force --deep --sign - $(APP)
 
 # 辞書とモデルを同梱した配布用 pkg を out/ に作る (Apple Silicon 向け、署名なし)
-pkg: bundle
-	DICT_URL="$(DICT_URL)" CARGO_TARGET="$(CARGO_TARGET)" ./pkg/build.sh
+pkg:
+	DICT_URL="$(DICT_URL)" ./pkg/build.sh
 
 # Download the prebuilt system dictionary unless one is already installed
 # (migrating from the legacy com.karukan.karukan-im directory if present).
